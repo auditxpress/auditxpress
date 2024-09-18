@@ -2,7 +2,8 @@ import os
 import platform
 import subprocess
 import time
-from tqdm import tqdm
+
+project_dir=os.path.dirname(__file__)
 
 def run_script_windows(script_path):
     try:
@@ -22,29 +23,24 @@ def run_script_windows(script_path):
 
 def run_script_linux(script_path):
     try:
-        # Bash command to run the script with sudo
-        command = f'sudo bash {script_path}'
+        command = f'bash {script_path}'
         # Execute the command and capture output and errors
         result = subprocess.run(command, shell=True, text=True, capture_output=True)
-        print("\nLinux script executed successfully.")
-        print("Output:\n", result.stdout)
-        print("Errors:\n", result.stderr)
+        if result.stdout:
+            print(result.stdout)
+        if result.stderr:
+            print(result.stderr)
     except subprocess.CalledProcessError as e:
         print(f"\nFailed to execute Linux script: {e}")
-
-def dynamic_loading_screen():
-    print("Detecting your OS and preparing to run the script...\n")
-    for _ in tqdm(range(100), desc="Loading", ascii=True, ncols=75):
-        time.sleep(0.05)  # Adjust the sleep time for different loading speeds
 
 def main():
     os_type = platform.system()
     
     # Paths to the scripts
     windows_script = r"C:\Users\karti\Downloads\Hackathon\3kkr.ps1"  # Replace with your PowerShell script path
-    linux_script = 'audit_linux.sh'      # Replace with your Bash script path
+    linux_script = os.path.join(project_dir,"linux_audit.sh")
 
-    dynamic_loading_screen()
+    #dynamic_loading_screen() #disable for now. 
     
     if os_type == 'Windows':
         print("\nDetected Windows OS.")
@@ -56,4 +52,4 @@ def main():
         print("\nUnsupported OS detected.")
 
 if __name__ == "__main__":
- 
+    main()
