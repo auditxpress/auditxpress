@@ -29,5 +29,5 @@ Report() {
 }
 
 Suggestion() {
-	Report $1
+	Report "Suggestion: $@"
 }
