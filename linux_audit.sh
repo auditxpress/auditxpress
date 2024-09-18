@@ -13,13 +13,15 @@ if [ "$EUID" -ne 0 ]; then
   privillege=1
 fi
 
+if [ -f "$REPORTFILE" ]; then
+    rm "$REPORTFILE"
+else
+	touch $REPORTFILE
+fi
+
 . $SCRIPT_DIR/benchmark_linux/helper_functions.sh
 
 for module in $(ls $MODULES_DIR/*.sh);do
 	source $module
-	init
 done
-
-
-
 
